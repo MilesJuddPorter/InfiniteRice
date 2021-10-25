@@ -16,13 +16,23 @@ def getAnswer():
     scr = mss().grab(mon)
     img = np.array(scr)
     questionImg = img[0:110, 100:700]
+
+
+
     questionstr = pytesseract.image_to_string(questionImg)
+
     questionstr = questionstr.replace('\x0c', '').replace('[', '')
     questionstr = questionstr.replace('\n', '')
     questionstr = questionstr.replace(' ', '')
-    number1, number2 = questionstr.split('x')
-    answer = int(number1) * int(number2)
-    return answer
+
+    try:
+        number1, number2 = questionstr.split('x')
+
+        answer = int(number1) * int(number2)
+        return answer
+
+    except:
+        return 0
 
 def getOptions(answer):
     print(answer)
@@ -43,7 +53,7 @@ def getOptions(answer):
 
 x = 900
 while True:
-    sleep(3)
+    sleep(4)
     choice = getOptions(getAnswer())
     try:
         p.click(x, 300+(60*choice))
